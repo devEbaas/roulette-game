@@ -100,12 +100,8 @@ function getTextTransform(
 
   const x = CX + textRadius * Math.cos(midAngle);
   const y = CY + textRadius * Math.sin(midAngle);
-  let angle = (midAngle * 180) / Math.PI;
-
-  // Flip text on the left half so it remains readable
-  if (midAngle > Math.PI / 2 && midAngle < (3 * Math.PI) / 2) {
-    angle += 180;
-  }
+  // Angle from center to exterior (always radial, no exceptions)
+  const angle = (midAngle * 180) / Math.PI;
 
   return { x, y, angle };
 }
@@ -123,11 +119,11 @@ export default function RouletteWheel({
   onSpinEnd,
 }: RouletteWheelProps) {
   const total = names.length;
-  const fontSize = total > 20 ? 7 : total > 14 ? 9 : total > 8 ? 11 : total > 5 ? 13 : 15;
-  const maxChars = total > 20 ? 5 : total > 14 ? 7 : total > 8 ? 9 : total > 5 ? 12 : 16;
+  const fontSize = total > 20 ? 9 : total > 14 ? 11 : total > 8 ? 14 : total > 5 ? 16 : 19;
+  const maxChars = total > 20 ? 6 : total > 14 ? 8 : total > 8 ? 10 : total > 5 ? 14 : 18;
 
   return (
-    <div className="relative w-[min(85vw,420px)] aspect-square">
+    <div className="relative w-[min(92vw,620px)] aspect-square">
       {/* Pointer triangle — fixed at the right edge */}
       <div className="absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 drop-shadow-lg">
         <svg width="28" height="40" viewBox="0 0 28 40">

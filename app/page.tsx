@@ -18,12 +18,24 @@ function generateId(): string {
   return Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
 }
 
-/** Default participants shown when the app first loads. */
-const DEFAULT_PARTICIPANTS: Participant[] = [
-  { id: generateId(), name: "Fernando" },
-  { id: generateId(), name: "Jesús" },
-  { id: generateId(), name: "Luis" },
-];
+/** Shuffles an array randomly using Fisher-Yates algorithm. */
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+/** Default participant names shown when the app first loads. */
+const DEFAULT_NAMES = ["Eduardo", "Jesús", "Javier", "Oscar", "Luis", "Fernando"];
+
+/** Creates default participants with random order. */
+function createDefaultParticipants(): Participant[] {
+  const shuffledNames = shuffleArray(DEFAULT_NAMES);
+  return shuffledNames.map((name) => ({ id: generateId(), name }));
+}
 
 /**
  * Main page component for the interactive roulette application.
@@ -31,7 +43,9 @@ const DEFAULT_PARTICIPANTS: Participant[] = [
  * winner selection, and modal visibility.
  */
 export default function Home() {
-  const [participants, setParticipants] = useState<Participant[]>(DEFAULT_PARTICIPANTS);
+  const [participants, setParticipants] = useState<Participant[]>(() =>
+    createDefaultParticipants()
+  );
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
@@ -50,7 +64,7 @@ export default function Home() {
    * and triggers the animation.
    */
   const handleSpin = useCallback(() => {
-    if (isSpinning || participants.length < 2) return;
+    if (isSpinning || participants.length < 1) return;
 
     setIsSpinning(true);
     setShowModal(false);
@@ -155,7 +169,7 @@ export default function Home() {
         </h1>
 
         {/* Wheel or placeholder */}
-        {names.length >= 2 ? (
+        {names.length >= 1 ? (
           <RouletteWheel
             names={names}
             rotation={rotation}
@@ -165,9 +179,9 @@ export default function Home() {
             onSpinEnd={handleSpinEnd}
           />
         ) : (
-          <div className="w-[min(85vw,420px)] aspect-square rounded-full bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center">
+          <div className="w-[min(92vw,620px)] aspect-square rounded-full bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center">
             <p className="text-white/30 text-center px-8 text-sm leading-relaxed">
-              Agrega al menos <strong className="text-white/50">2 nombres</strong>
+              Agrega al menos <strong className="text-white/50">1 nombre</strong>
               <br />
               para habilitar la ruleta
             </p>
@@ -177,7 +191,7 @@ export default function Home() {
         {/* Spin button */}
         <SpinButton
           onSpin={handleSpin}
-          disabled={isSpinning || names.length < 2}
+          disabled={isSpinning || names.length < 1}
         />
       </motion.div>
 
