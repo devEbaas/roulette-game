@@ -141,7 +141,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0a2e] via-[#1a1040] to-[#0a0a1a] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-linear-to-br from-[#0f0a2e] via-[#1a1040] to-[#0a0a1a] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14 p-4 sm:p-6 lg:p-8">
       {/* Left section: Title + Wheel + Spin Button */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -150,7 +150,7 @@ export default function Home() {
         className="flex flex-col items-center gap-6"
       >
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-rose-300 tracking-tight select-none">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-purple-300 via-pink-300 to-rose-300 tracking-tight select-none">
           🎡 Spin Wheel
         </h1>
 
@@ -165,7 +165,7 @@ export default function Home() {
             onSpinEnd={handleSpinEnd}
           />
         ) : (
-          <div className="w-[min(85vw,420px)] aspect-square rounded-full bg-white/[0.05] border-2 border-dashed border-white/10 flex items-center justify-center">
+          <div className="w-[min(85vw,420px)] aspect-square rounded-full bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center">
             <p className="text-white/30 text-center px-8 text-sm leading-relaxed">
               Agrega al menos <strong className="text-white/50">2 nombres</strong>
               <br />
